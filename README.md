@@ -30,18 +30,6 @@ $$\text{GFLOPS} = \frac{2 \times N^3}{\text{Time (ms)} \times 10^6}$$
 $$\text{Speedup} = \frac{\text{Time}_{\text{uncoalesced}}}{\text{Time}_{\text{coalesced}}}$$
 
 
-## Repository Structure
-
-```text
-├── screenshots/
-│   ├── cuda version .png      # Output of nvcc --version / nvidia-smi check
-│   └── exp6.cu.png            # Terminal output from running exp6
-├── README.md                  # Experiment documentation, setup guide, and results
-└── exp6.cu.                   # Complete CUDA C/C++ source code
-
-
----
-
 ## Setup & Execution
 
 ### Prerequisites
@@ -102,7 +90,20 @@ Naive matmul          : 3.900 ms
 
 ![Cuda Version](<screenshots/cuda version .png>)
 ![Experiment 6 Output](<screenshots/exp6.cu.png>)
+
 ## Key Takeaways
 1. **Memory Coalescing:** Grouping adjacent warp accesses into contiguous 128-byte cache lines eliminates wasted memory transactions and dramatically increases effective bandwidth.
 2. **Bank Conflict Avoidance:** Declaring shared memory as `__shared__ float tile[32][33]` shifts column accesses across different shared-memory banks, preventing serialization.
 3. **Data Reuse Bottleneck:** Naive matrix multiplication fetches the same row and column elements repeatedly from global memory, making it strictly memory-bound until shared-memory tiling is introduced.
+
+## Repository Structure
+
+```text
+├── screenshots/
+│   ├── cuda version .png      # Output of nvcc --version / nvidia-smi check
+│   └── exp6.cu.png            # Terminal output from running exp6
+├── README.md                  # Experiment documentation, setup guide, and results
+└── exp6.cu.                   # Complete CUDA C/C++ source code
+
+
+---
