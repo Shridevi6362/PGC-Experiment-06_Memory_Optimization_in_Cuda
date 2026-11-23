@@ -16,23 +16,29 @@ This experiment investigates how global-memory access patterns impact GPU kernel
 ---
 
 ## Performance Metrics Formulae
-* **Effective Bandwidth (Transpose):**
-  $$\text{Bandwidth (GB/s)} = \frac{2 \times N^2 \times 4\text{ bytes}}{\text{Time (ms)} \times 10^6}$$
-* **Floating-Point Rate (Matrix Multiplication):**
-  $$\text{GFLOPS} = \frac{2 \times N^3}{\text{Time (ms)} \times 10^6}$$
-* **Transpose Speedup:**
-  $$\text{Speedup} = \frac{\text{Time}_{\text{uncoalesced}}}{\text{Time}_{\text{coalesced}}}$$
 
----
+* **Effective Bandwidth (Transpose):**
+
+$$\text{Bandwidth (GB/s)} = \frac{2 \times N^2 \times 4\text{ bytes}}{\text{Time (ms)} \times 10^6}$$
+
+* **Floating-Point Rate (Matrix Multiplication):**
+
+$$\text{GFLOPS} = \frac{2 \times N^3}{\text{Time (ms)} \times 10^6}$$
+
+* **Transpose Speedup:**
+
+$$\text{Speedup} = \frac{\text{Time}_{\text{uncoalesced}}}{\text{Time}_{\text{coalesced}}}$$
+
 
 ## Repository Structure
 
 ```text
 ├── screenshots/
-│   └── output.png             # Terminal output screenshot from running exp6
+│   ├── cuda version .png      # Output of nvcc --version / nvidia-smi check
+│   └── exp6.cu.png            # Terminal output from running exp6
 ├── README.md                  # Experiment documentation, setup guide, and results
-└── exp6.cu                    # Complete CUDA C/C++ source code
-```
+└── exp6.cu.                   # Complete CUDA C/C++ source code
+
 
 ---
 
@@ -94,6 +100,8 @@ Naive matmul          : 3.900 ms
 
 ---
 
+![Cuda Version](<screenshots/cuda version .png>)
+![Experiment 6 Output](<screenshots/exp6.cu.png>)
 ## Key Takeaways
 1. **Memory Coalescing:** Grouping adjacent warp accesses into contiguous 128-byte cache lines eliminates wasted memory transactions and dramatically increases effective bandwidth.
 2. **Bank Conflict Avoidance:** Declaring shared memory as `__shared__ float tile[32][33]` shifts column accesses across different shared-memory banks, preventing serialization.
